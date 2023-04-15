@@ -7,14 +7,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 from decouple import config
 import pandas as pd
+import os
 
 
 def extract_email(post_url):
-    print("davao")
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
-    LINKEDIN_USERNAME = config('LINKEDIN_USERNAME')
-    LINKEDIN_PASSWORD = config('LINKEDIN_PASSWORD')
+    LINKEDIN_USERNAME = os.environ.get('LINKEDIN_USERNAME')
+    LINKEDIN_PASSWORD = os.environ.get('LINKEDIN_PASSWORD')
     driver.get("https://www.linkedin.com/")
 
     username = driver.find_element(By.NAME, "session_key")

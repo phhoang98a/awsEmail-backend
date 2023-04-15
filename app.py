@@ -5,14 +5,15 @@ import boto3
 import requests
 from decouple import config
 from werkzeug.utils import secure_filename
+import os
 
 app = Flask(__name__)
 CORS(app)
 
 s3 = boto3.client(
   "s3",
-  aws_access_key_id=config('AMAZON_ACCESS_KEY'),
-  aws_secret_access_key=config('AMAZON_SECRET_KEY')
+  aws_access_key_id=os.environ.get('AMAZON_ACCESS_KEY'),
+  aws_secret_access_key=os.environ.get('AMAZON_SECRET_KEY')
 )
 
 
@@ -47,7 +48,7 @@ def sendMail():
               filesName.append(file.filename)
               s3.upload_fileobj(
                   file,
-                  config('S3_BUCKET_NAME'),
+                  os.environ.get('S3_BUCKET_NAME'),
                   file.filename,
                   ExtraArgs={
                       "ContentType": file.content_type
